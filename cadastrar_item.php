@@ -6,14 +6,14 @@
 
 <?php
   //cria consulta SQL
-  $query = $conecta->query ("SELECT * FROM espaco");
+  $query = $conecta->query ("SELECT * FROM item");
 ?>
 
 <!DOCTYPE html>
 <html>
 <head>
 	<meta charset="utf-8">
-	<title>Reservar Espaço</title>
+	<title>Cadastrar Item</title>
 
 	<!-- Link Bootstrap -->
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
@@ -30,7 +30,7 @@
   <div class="collapse navbar-collapse" id="navbarNav">
     <ul class="navbar-nav">
       <li class="nav-item active">
-        <a class="nav-link" href="dashboard.php">Dashboard</a>
+        <a class="nav-link" href="dashboard.html">Dashboard</a>
       </li>
       
       <li class="nav-item dropdown">
@@ -78,19 +78,40 @@
 
 
 <body>
+<form action="adicionar_item.php" method="post">
+  <br><label><h3> Adicionar Item </h3></label><br>
+
+  <div class="form-row">
+    
+    <div class="col-2"> 
+      <label>Item</label>
+      <input type="text" name="item" class="form-control">
+    </div> 
+
+    <div class="col-2"> 
+      <label>Quantidade</label>
+      <input type="text" name="quantidade" class="form-control">
+    </div> 
+  
+    <div class="col-2"> <br>
+    <button type="submit" class="btn btn-success" name="Enviar">Inserir</button>
+    <button type="Reset" class="btn btn-warning" name="Limpar">Limpar</button>
+  </div>
+</div>
+</form>
+
+<br><hr><br>
 
 <?php
 
       //executa consulta
-      echo "<h2> Espaços Reservados </h2>";
+      echo "<h2> Itens Cadastrados </h2>";
       echo '<br><table class="table table-hover">';
       echo "<thead>";
       echo "<tr>";
-      //echo "<th align=center><h4> ID </h4></th>"; 
-      echo "<th align=center><h4> Espaço </h4></th>";
-      echo "<th align=center><h4> Local </h4></th>"; 
-      echo "<th align=center><h4> Capacidade </h4></th>"; 
-      echo "<th align=center><h4> Status </h4></th>";
+      echo "<th align=center><h4> Item </h4></th>";
+      echo "<th align=center><h4> Quantidade </h4></th>";
+      echo "<th align=center><h4> Disponível </h4></th>"; 
       echo "<th align=center><h4> Açöes </h4></th>";              
       echo "</tr>";
       echo "</thead>";
@@ -98,14 +119,12 @@
 
     while ($resultado = mysqli_fetch_assoc($query)){
       echo "<tr>";  
-      //echo "<th>" . $resultado ["id"] . "</th>";
-      echo "<td>" . $resultado ["espaco"] . "</td>";
-      echo "<td>" . $resultado ["endereco"] . "</td>";
-      echo "<td>" . $resultado ["capacidade"] . "</td>";
-      echo "<td>" . $resultado ["status"] . "</td>";
+      echo "<td>" . utf8_encode($resultado ["item"]) . "</td>";
+      echo "<td>" . $resultado ["quantidade"] . "</td>";
+      echo "<td>" . $resultado ["disponivel"] . "</td>";
     ?>
 
-      <td><center><a class="btn btn-warning" href="ReservarEspaco.php?id=<?php echo $resultado["id"]?>">Reservar</a></center></td>
+      <td><center><a class="btn btn-warning" href="reservarItem.php?id=<?php echo $resultado["id"]?>">Reservar</a></center></td>
     
     <?php
     echo "</tr>";
@@ -117,6 +136,7 @@
     mysqli_close ($conecta);
 ?>
 
+<?php include_once("_incluir/rodape.php"); ?>
 </body>
 
 
@@ -131,8 +151,7 @@
     </script>
 
 
-<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
-<nav class="navbar navbar-expand-lg navbar-light" style="background-color: #98FCFF; height: 51px;"></nav>
+
 
 
 </html>

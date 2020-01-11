@@ -1,4 +1,14 @@
 
+<?php
+  //abre conexao ao servidos MySQL
+  include "conexao.php";
+?>
+
+<?php
+  //cria consulta SQL
+  $query = $conecta->query ("SELECT * FROM espaco");
+?>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -39,7 +49,7 @@
         </a>
         <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
           <a class="dropdown-item" href="reservar_espaco.php">Reservar Espaço</a>
-          <a class="dropdown-item" href="reservas.php">Reservas Realizadas</a>
+          <a class="dropdown-item" href="reservas_realizadas.php">Reservas Realizadas</a>
           <a class="dropdown-item" href="historico_reservas.php">Histórico</a>
         </div>
       </li>
@@ -49,8 +59,8 @@
           Recursos
         </a>
         <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-          <a class="dropdown-item" href="item.php">Cadastrar Item</a> <!-- CRUD Completo -->
-          <a class="dropdown-item" href="reservas_item.php">Itens Reservados</a>
+          <a class="dropdown-item" href="cadastrar_item.php">Cadastrar Item</a> <!-- CRUD Completo -->
+          <a class="dropdown-item" href="itens_reservados.php">Itens Reservados</a>
           <a class="dropdown-item" href="historico_item.php">Histórico</a>
         </div>
       </li>
@@ -71,6 +81,49 @@
  <font>
    GRID - Listar, Alterar e Excluir Espaços Cadastrados.
  </font>
+
+    <?php
+
+      //executa consulta
+      echo "<h2> Espaços Cadastrados </h2>";
+      echo '<br><table class="table table-hover">';
+      echo "<thead>";
+      echo "<tr>";
+      echo "<th align=center><h4> ID </h4></th>"; 
+      echo "<th align=center><h4> Tipo </h4></th>";
+      echo "<th align=center><h4> Espaço </h4></th>";
+      echo "<th align=center><h4> Local </h4></th>"; 
+      echo "<th align=center><h4> Capacidade </h4></th>"; 
+      echo "<th align=center><h4> Descriçäo </h4></th>";
+      echo "<th align=center><h4> Detalhes </h4></th>";
+      echo "<th align=center><h4> Açöes </h4></th>";              
+      echo "</tr>";
+      echo "</thead>";
+      echo "<tbody>";
+
+    while ($resultado = mysqli_fetch_assoc($query)){
+      echo "<tr>";  
+      echo "<th>" . $resultado ["id"] . "</th>";
+      echo "<th>" . utf8_encode($resultado ["tipo"]) . "</th>";
+      echo "<td>" . $resultado ["espaco"] . "</td>";
+      echo "<td>" . $resultado ["endereco"] . "</td>";
+      echo "<td>" . $resultado ["capacidade"] . "</td>";
+      echo "<td>" . $resultado ["descricao"] . "</td>";
+    ?>
+
+      <td><center><a class="btn btn-secondary" href="HistoricoEspaco.php?id=<?php echo $resultado["id"]?>">Histórico</a></center></td>
+      <td><center><a class="btn btn-warning" href="AtualizarEspaco.php?id=<?php echo $resultado["id"]?>">Atualizar</a> <a class="btn btn-danger" href="RemoverEspaco.php?id=<?php echo $resultado["id"]?>">Remover</a></center></td>
+    
+    <?php
+    echo "</tr>";
+    }
+
+    echo "</tbody>";        
+    echo "</table>";
+
+    mysqli_close ($conecta);
+?>
+
 </body>
 
 
