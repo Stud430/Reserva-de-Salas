@@ -109,7 +109,7 @@
     ?>
 
       <td><center><a class="btn btn-secondary" href="HistoricoEspaco.php?id=<?php echo $resultado["id"]?>">Histórico</a></center></td>
-      <td><center><a class="btn btn-warning" href="AtualizarEspaco.php?id=<?php echo $resultado["id"]?>">Atualizar</a> <a class="btn btn-danger" href="RemoverEspaco.php?id=<?php echo $resultado["id"]?>">Remover</a></center></td>
+      <td><center><a class="btn btn-warning" href="atualizar_espaco.php?id=<?php echo $resultado["id"]?>">Atualizar</a> <a class="btn btn-danger" href="remover_espaco.php?id=<?php echo $resultado["id"]?>">Remover</a></center></td>
     
     <?php
     echo "</tr>";
@@ -122,7 +122,7 @@
 ?>
 
 
-<a class="btn btn-outline-dark" href="ListagemEspacos.php" name="br">Baixar Relatório</a>
+<a class="btn btn-outline-dark" href="ListagemEspacos.php">Baixar Relatório</a>
 <?php include_once("_incluir/rodape.php"); ?>
 </body>
 
