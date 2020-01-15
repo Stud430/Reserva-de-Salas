@@ -6,7 +6,7 @@
 
 <?php
   //cria consulta SQL
-  $query = $conecta->query ("SELECT * FROM espaco");
+  $query = $conecta->query ("SELECT * FROM espaco order by id");
 ?>
 
 <!DOCTYPE html>
@@ -78,10 +78,7 @@
 
 
 <body>
- <font>
-   GRID - Listar, Alterar e Excluir Espaços Cadastrados.
- </font>
-
+  
     <?php
 
       //executa consulta
@@ -104,9 +101,9 @@
     while ($resultado = mysqli_fetch_assoc($query)){
       echo "<tr>";  
       echo "<th>" . $resultado ["id"] . "</th>";
-      echo "<th>" . utf8_encode($resultado ["tipo"]) . "</th>";
-      echo "<td>" . $resultado ["espaco"] . "</td>";
-      echo "<td>" . $resultado ["endereco"] . "</td>";
+      echo "<td>" . utf8_encode($resultado ["tipo"]) . "</td>";
+      echo "<td>" . utf8_encode($resultado ["espaco"]) . "</td>";
+      echo "<td>" . utf8_encode($resultado ["endereco"]) . "</td>";
       echo "<td>" . $resultado ["capacidade"] . "</td>";
       echo "<td>" . $resultado ["descricao"] . "</td>";
     ?>
@@ -124,6 +121,9 @@
     mysqli_close ($conecta);
 ?>
 
+
+<a class="btn btn-outline-dark" href="ListagemEspacos.php" name="br">Baixar Relatório</a>
+<?php include_once("_incluir/rodape.php"); ?>
 </body>
 
 
@@ -136,10 +136,6 @@
             $('#main_navbar').bootnavbar();
         })
     </script>
-
-
-<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
-<nav class="navbar navbar-expand-lg navbar-light" style="background-color: #98FCFF; height: 51px;"></nav>
 
 
 </html>

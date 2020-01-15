@@ -124,8 +124,45 @@
       echo "<td>" . $resultado ["disponivel"] . "</td>";
     ?>
 
-      <td><center><a class="btn btn-warning" href="reservarItem.php?id=<?php echo $resultado["id"]?>">Reservar</a></center></td>
-    
+      <td><center><button class="btn btn-warning" href="reservarItem.php?id=<?php echo $resultado["id"]?>" data-toggle="modal" data-target="#myModal">Reservar</button></center></td>
+
+
+        <div class="modal fade" id="myModal">
+            <div class="modal-dialog modal-lg modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h3>Cadastrando</h3>
+                        <button class="close" data-dismiss="modal">
+                            <span>&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form>
+                            <div class="form-group">
+                                <label for="name" class="col-form-label">Name:</label>
+                                <input type="text" class="form-control" id="name">
+                            </div>
+                            <div class="form-group">
+                                <label for="email" class="col-form-label">e-mail:</label>
+                                <input type="email" class="form-control" id="email">
+                            </div>
+                            <div class="form-group">
+                                <label for="message-text" class="col-form-label">Mensagem:</label>
+                                <textarea class="form-control" id="message-text"></textarea>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-secondary" data-dismiss="modal">
+                            Fechar
+                        </button>
+                        <button class="btn btn-success">
+                            Salvar
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
     <?php
     echo "</tr>";
     }
@@ -136,6 +173,7 @@
     mysqli_close ($conecta);
 ?>
 
+<button type="button" class="btn btn-outline-dark">Baixar Relatório</button>
 <?php include_once("_incluir/rodape.php"); ?>
 </body>
 
