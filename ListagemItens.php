@@ -5,26 +5,22 @@
 	  $html = '<br><table class="table table-hover">';
       $html .= "<tr>";
       $html .= "<th align=center><h4> ID </h4></th>"; 
-      $html .= "<th align=center><h4> Tipo </h4></th>";
-      $html .= "<th align=center><h4> Espaço </h4></th>";
-      $html .= "<th align=center><h4> Local </h4></th>"; 
-      $html .= "<th align=center><h4> Capacidade </h4></th>"; 
-      $html .= "<th align=center><h4> Descriçäo </h4></th>";
+      $html .= "<th align=center><h4> Item </h4></th>";
+      $html .= "<th align=center><h4> Quantidade </h4></th>";
+      $html .= "<th align=center><h4> Em Estoque </h4></th>";
       $html .= "</tr>";      
       $html .= "<body>";	
 
 
-	$result_transacoes = "SELECT * FROM espaco";
+	$result_transacoes = "SELECT * FROM item";
 	$resultado_trasacoes = mysqli_query($conecta, $result_transacoes);
 	
 	while($resultado = mysqli_fetch_assoc($resultado_trasacoes)){
 	  $html .= "<tr>";  
-      $html .= "<th>" . $resultado ["id"] . "</th>";
-      $html .= "<td>" . utf8_encode($resultado ["tipo"]) . "</td>";
-      $html .= "<td>" . utf8_encode($resultado ["espaco"]) . "</td>";
-      $html .= "<td>" . utf8_encode($resultado ["endereco"]) . "</td>";
-      $html .= "<td>" . $resultado ["capacidade"] . "</td>";
-      $html .= "<td>" . $resultado ["descricao"] . "</td>";		
+      $html .= "<th align=center>" . $resultado ["id"] . "</th>";
+      $html .= "<td align=center>" . utf8_encode($resultado ["item"]) . "</td>";
+      $html .= "<td align=center>" . $resultado ["quantidade"] . "</td>";
+      $html .= "<td align=center>" . $resultado ["disponivel"] . "</td>";	
 	  $html .= "</tr>"; 	
 	}
 	
@@ -45,7 +41,7 @@
 	$dompdf->setPaper('A4','portrait');
 
 	// Carrega seu HTML
-	$dompdf->load_html(' <h1 style="text-align: center;"> Listagem de Espaços Cadastrados </h1>	' . $html .'
+	$dompdf->load_html(' <h1 style="text-align: center;"> Listagem de Itens Cadastrados </h1>	' . $html .'
 		');
 
 
@@ -54,7 +50,7 @@
 
 	//Exibir a página
 	$dompdf->stream(
-		"Espaços.pdf", 
+		"Itens Cadastrados.pdf", 
 		array(
 			"Attachment" => false //Para realizar o download somente alterar para true
 		)
