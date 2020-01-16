@@ -98,14 +98,96 @@
 
     while ($resultado = mysqli_fetch_assoc($query)){
       echo "<tr>";  
-      //echo "<th>" . $resultado ["id"] . "</th>";
+      //echo "<th>" . $resultado ["espacoID"] . "</th>";
       echo "<td>" . $resultado ["espaco"] . "</td>";
       echo "<td>" . $resultado ["endereco"] . "</td>";
       echo "<td>" . $resultado ["capacidade"] . "</td>";
       echo "<td>" . $resultado ["status"] . "</td>";
     ?>
 
-      <td><center><a class="btn btn-warning" href="ReservarEspaco.php?id=<?php echo $resultado["id"]?>">Reservar</a></center></td>
+<!--
+    <?php
+      if($resultado['status'] == 0){ /* INICIO do IF */       
+    ?>
+    
+    <td><center><a class="btn btn-warning" href="ReservarEspaco.php?id=<?php echo $resultado["id"]?>"> Reservar </a></center></td>;
+     
+    <?php
+      } elseif ($resultado['status'] == 1) { /* ELSE  */
+    ?>
+    
+    <td><center><a class="btn btn-outline-danger" href="DevolverEspaco.php?id=<?php echo $resultado["id"]?>"> Devolver </a></center></td>;
+    
+    <?php
+      } /* FIM do IF */
+    ?>
+-->
+
+<!-- href="ReservarEspaco.php?id=<?php echo $resultado["espacoID"]?>" -->
+      <td><center><button class="btn btn-warning" data-toggle="modal" data-target="#myModal<?php echo $resultado['espacoID']?>" >Reservar</button></center></td>
+
+      <div class="modal fade" id="myModal<?php echo $resultado['espacoID']?>">
+            <div class="modal-dialog modal-lg modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h3>Cadastrando</h3>
+                        <button class="close" data-dismiss="modal">
+                            <span>&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form action="ReservarEspaco.php" method="post">
+                            <div> <!-- ID do Espaco-->
+                                <label>ID: <?php echo $resultado['espacoID']?></label>
+                                <input type="hidden" name="id" value="<?php echo $resultado['espacoID']?>">
+                            </div>
+                            <div class="form-group">
+                                <label class="col-form-label">Evento/Aula:</label>
+                                <input type="text" class="form-control" id="EventoAula" name="EventoAula">
+                            </div>
+                            <div class="form-row">
+                                <label class="col-form-label">Local:</label>
+                                <input type="text" class="form-control" id="local" name="localX" value="<?php echo $resultado['espaco'] ?>" disabled >
+
+                                  <!-- LOCAL ESCONDIDO -->
+                                <input type="hidden" class="form-control" id="local" name="local" value="<?php echo $resultado['espaco'] ?>">
+                            
+                                <label class="col-form-label">Endereço:</label>
+                                <input type="text" class="form-control" id="local" name="enderecoX" value="<?php echo $resultado['endereco'] ?>" disabled >
+                                
+                                   <!-- ENDERECO ESCONDIDO --> 
+                                <input type="hidden" class="form-control" id="local" name="endereco" value="<?php echo $resultado['endereco'] ?>">
+                            </div>
+                            <div class="form-group">
+                                <label class="col-form-label">Dia:</label>
+                                <input type="date" class="form-control" id="dia" name="dia">
+                            </div>
+                            <div class="form-group">
+                                <label class="col-form-label">Horário:</label>
+                                <input type="time" class="form-control" id="hora" name="hora">
+                            </div>
+                            <div class="form-group">
+                                <label class="col-form-label">Responsável:</label>
+                                <input type="text" class="form-control" id="responsavel" name="responsavel">
+                            </div>
+
+                            <button type="reset" class="btn btn-warning">
+                                Limpar
+                            </button>
+                            <button type="submit" class="btn btn-success">
+                                Salvar
+                            </button>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-secondary" data-dismiss="modal">
+                            Fechar
+                        </button>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
     
     <?php
     echo "</tr>";

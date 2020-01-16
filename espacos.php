@@ -6,7 +6,7 @@
 
 <?php
   //cria consulta SQL
-  $query = $conecta->query ("SELECT * FROM espaco order by id");
+  $query = $conecta->query ("SELECT * FROM espaco order by espacoID");
 ?>
 
 <!DOCTYPE html>
@@ -100,7 +100,7 @@
 
     while ($resultado = mysqli_fetch_assoc($query)){
       echo "<tr>";  
-      echo "<th>" . $resultado ["id"] . "</th>";
+      echo "<th>" . $resultado ["espacoID"] . "</th>";
       echo "<td>" . utf8_encode($resultado ["tipo"]) . "</td>";
       echo "<td>" . utf8_encode($resultado ["espaco"]) . "</td>";
       echo "<td>" . utf8_encode($resultado ["endereco"]) . "</td>";
@@ -108,8 +108,8 @@
       echo "<td>" . $resultado ["descricao"] . "</td>";
     ?>
 
-      <td><center><a class="btn btn-secondary" href="HistoricoEspaco.php?id=<?php echo $resultado["id"]?>">Histórico</a></center></td>
-      <td><center><a class="btn btn-warning" href="atualizar_espaco.php?id=<?php echo $resultado["id"]?>">Atualizar</a> <a class="btn btn-danger" href="remover_espaco.php?id=<?php echo $resultado["id"]?>">Remover</a></center></td>
+      <td><center><a class="btn btn-secondary" href="historicoEspaco.php?id=<?php echo $resultado["espacoID"]?>">Histórico</a></center></td>
+      <td><center><a class="btn btn-warning" href="atualizar_espaco.php?id=<?php echo $resultado["espacoID"]?>" name="Atualizar">Atualizar</a> <a class="btn btn-danger" href="remover_espaco.php?id=<?php echo $resultado["espacoID"]?>" name="Remover">Remover</a></center></td>
     
     <?php
     echo "</tr>";

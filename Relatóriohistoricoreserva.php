@@ -15,7 +15,7 @@
       $html .= "<body>";	
 
 
-	$result_transacoes = "SELECT hr.EventoAula, e.espaco, hr.dia, hr.horario, e.endereco, hr.responsavel, hr.detalhe FROM historicoreserva hr inner join espaco e on hr.espaco = e.id and hr.endereco = e.id ";
+	$result_transacoes = "SELECT hr.EventoAula, e.espaco, hr.dia, hr.horario, e.endereco, hr.responsavel, hr.detalhe FROM historicoreserva hr inner join espaco e on hr.espaco = e.espacoID and hr.endereco = e.espacoID ";
 	$resultado_trasacoes = mysqli_query($conecta, $result_transacoes);
 	
 	while($resultado = mysqli_fetch_assoc($resultado_trasacoes)){

@@ -6,7 +6,7 @@
 
 <?php
   //cria consulta SQL
-  $query = $conecta->query ("SELECT * FROM reservas");
+  $query = $conecta->query ("SELECT r.EventoAula, e.espaco, r.dia, r.horario, e.endereco, r.responsavel FROM reservas r inner join espaco e on r.espaco = e.espacoID and r.endereco = e.espacoID ");
 ?>
 
 <!DOCTYPE html>
@@ -99,7 +99,7 @@
 
     while ($resultado = mysqli_fetch_assoc($query)){
       echo "<tr>";  
-      echo "<th>" . $resultado ["EventoAula"] . "</th>";
+      echo "<th>" . utf8_encode($resultado ["EventoAula"]) . "</th>";
       echo "<td>" . $resultado ["espaco"] . "</td>";
       echo "<td>" . $resultado ["dia"] . "</td>";
       echo "<td>" . $resultado ["horario"] . "</td>";
@@ -107,7 +107,7 @@
       echo "<td>" . $resultado ["responsavel"] . "</td>";
     ?>
 
-      <td><center><a class="btn btn-warning" href="AtualizarEspaco.php?id=<?php echo $resultado["id"]?>">Atualizar</a> <a class="btn btn-danger" href="RemoverEspaco.php?id=<?php echo $resultado["id"]?>">Cancelar</a></center></td>
+      <td><center><a class="btn btn-warning" href="AtualizarEspaco.php?id=<?php echo $resultado["reservaID"]?>">Atualizar</a> <a class="btn btn-danger" href="RemoverEspaco.php?id=<?php echo $resultado["reservaID"]?>">Cancelar</a></center></td>
     
     <?php
     echo "</tr>";
@@ -119,7 +119,7 @@
     mysqli_close ($conecta);
 ?>
 
-
+<a class="btn btn-outline-dark" href="RelatórioReservasRealizadas.php" name="br">Baixar Relatório</a>
 <?php include_once("_incluir/rodape.php"); ?>
 </body>
 
