@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: 16-Jan-2020 às 21:53
+-- Generation Time: 27-Jan-2020 às 20:18
 -- Versão do servidor: 5.7.17
 -- PHP Version: 7.1.3
 
@@ -30,24 +30,23 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `espaco` (
   `espacoID` int(11) NOT NULL,
-  `espaco` varchar(25) NOT NULL,
-  `endereco` varchar(25) NOT NULL,
+  `espaco` varchar(30) NOT NULL,
+  `endereco` varchar(30) NOT NULL,
   `capacidade` int(4) NOT NULL,
   `status` tinyint(1) NOT NULL,
-  `tipo` char(20) NOT NULL,
-  `descricao` varchar(100) DEFAULT NULL
+  `tipo` char(30) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 --
 -- Extraindo dados da tabela `espaco`
 --
 
-INSERT INTO `espaco` (`espacoID`, `espaco`, `endereco`, `capacidade`, `status`, `tipo`, `descricao`) VALUES
-(1, 'Sala 108', '2 Andar', 20, 0, 'Sala', 'Sala com Ar-Condicionado, TV,  Notebook e Internet.'),
-(9, 'Marketing - 108', 'Corredor Central', 9, 0, 'Laboratório', '7 Computadores, Mini Studio, 1 Cämera Profissional.'),
-(10, 'Brinquedoteca', 'Bloco B - 1 Andar', 12, 0, 'Sala de Aula', 'Brinquedos e Brinquedos.'),
-(16, 'Sala B', '6 aNDAR', 15, 0, 'Sala de Aula', 'ABCDE'),
-(12, 'Sala 310', '3 Andar', 50, 0, 'Sala de Multimídia', 'TelÃ¤o, computador, internet, mesa retangular.');
+INSERT INTO `espaco` (`espacoID`, `espaco`, `endereco`, `capacidade`, `status`, `tipo`) VALUES
+(17, 'Brinquedoteca', '2 Andar', 15, 0, 'Sala de Aula'),
+(18, 'MKT - 08', '3 Andar', 13, 0, 'Laboratório de Marketing'),
+(19, 'Sala 310', '3 Andar', 60, 0, 'Sala de Aula'),
+(22, 'Sala  20', '3 Andar - 2 porta á esquerda', 30, 0, 'Sala de Aula'),
+(21, 'Auditório CAEL', '1 Andar - Bloco B', 60, 0, 'Sala de Multimídia');
 
 -- --------------------------------------------------------
 
@@ -75,7 +74,7 @@ CREATE TABLE `historicoitem` (
 
 CREATE TABLE `historicoreserva` (
   `id` int(11) NOT NULL,
-  `EventoAula` varchar(25) NOT NULL,
+  `EventoAula` varchar(100) NOT NULL,
   `espaco` int(11) NOT NULL,
   `dia` date NOT NULL,
   `horario` time NOT NULL,
@@ -89,8 +88,12 @@ CREATE TABLE `historicoreserva` (
 --
 
 INSERT INTO `historicoreserva` (`id`, `EventoAula`, `espaco`, `dia`, `horario`, `endereco`, `responsavel`, `detalhe`) VALUES
-(1, 'Aniversário ', 10, '2020-02-15', '17:00:00', 10, 'Tia LalÃ¡', 'Evento Marcado'),
-(2, 'Aula de Culinária', 16, '2020-01-22', '16:00:00', 16, 'Chef', 'Evento Marcado');
+(13, 'Aula de HTML5', 18, '2020-05-15', '09:30:00', 18, 'Professor Carlos', 'Evento Marcado'),
+(12, 'Aula de Photoshop', 18, '2020-05-15', '08:00:00', 18, 'Professora Aline', 'Evento Marcado'),
+(11, 'Cine Kids - Os Vegetais', 17, '2020-03-13', '14:00:00', 17, 'Professor JoÃ¤o', 'Evento Marcado'),
+(10, 'Aula de Macinha', 17, '2020-03-15', '10:00:00', 17, 'Professora Ana', 'Evento Marcado'),
+(14, 'Palestra - Desing de Games', 20, '2020-04-20', '17:30:00', 20, 'Professora CÃ¡tia', 'Evento Marcado'),
+(15, 'Filme O Patriota', 21, '2020-06-14', '11:00:00', 21, 'Professor Gabriel', 'Evento Marcado');
 
 -- --------------------------------------------------------
 
@@ -100,7 +103,7 @@ INSERT INTO `historicoreserva` (`id`, `EventoAula`, `espaco`, `dia`, `horario`, 
 
 CREATE TABLE `item` (
   `itemID` int(11) NOT NULL,
-  `item` varchar(15) NOT NULL,
+  `item` varchar(30) NOT NULL,
   `quantidade` int(3) NOT NULL,
   `disponivel` int(3) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
@@ -110,12 +113,11 @@ CREATE TABLE `item` (
 --
 
 INSERT INTO `item` (`itemID`, `item`, `quantidade`, `disponivel`) VALUES
-(1, 'Projetor Epson', 4, 4),
-(2, 'Extensäo', 10, 10),
-(3, 'Tablet ', 5, 5),
-(4, 'Apagador', 2, 2),
-(5, 'Piloto Azul', 9, 9),
-(6, 'Mouse', 16, 16);
+(8, 'Projetor Epson', 3, 3),
+(7, 'Mouse', 8, 8),
+(9, 'Extensäo 10 Metros', 5, 5),
+(10, 'Giz Branco', 50, 50),
+(11, 'Piloto Azul', 6, 6);
 
 -- --------------------------------------------------------
 
@@ -125,7 +127,7 @@ INSERT INTO `item` (`itemID`, `item`, `quantidade`, `disponivel`) VALUES
 
 CREATE TABLE `reservas` (
   `reservaID` int(11) NOT NULL,
-  `EventoAula` varchar(25) NOT NULL,
+  `EventoAula` varchar(100) NOT NULL,
   `espaco` int(11) NOT NULL,
   `dia` date NOT NULL,
   `horario` time NOT NULL,
@@ -138,7 +140,13 @@ CREATE TABLE `reservas` (
 --
 
 INSERT INTO `reservas` (`reservaID`, `EventoAula`, `espaco`, `dia`, `horario`, `endereco`, `responsavel`) VALUES
-(4, 'Aula de Culinária', 16, '2020-01-22', '16:00:00', 16, 'Chef');
+(12, 'Aula de Macinha', 17, '2020-03-15', '10:00:00', 17, 'Professora Ana'),
+(13, 'Cine Kids - Os Vegetais', 17, '2020-03-13', '14:00:00', 17, 'Professor JoÃ¤o'),
+(14, 'Aula de Photoshop', 18, '2020-05-15', '08:00:00', 18, 'Professora Aline'),
+(15, 'Aula de HTML5', 18, '2020-05-15', '09:30:00', 18, 'Professor Carlos'),
+(16, 'Palestra - Desing de Games', 20, '2020-04-20', '17:30:00', 20, 'Professora CÃ¡tia'),
+(17, 'Palestra - Desing de Games', 20, '2020-04-20', '17:30:00', 20, 'Professora CÃ¡tia'),
+(18, 'Filme O Patriota', 21, '2020-06-14', '11:00:00', 21, 'Professor Gabriel');
 
 -- --------------------------------------------------------
 
@@ -149,7 +157,7 @@ INSERT INTO `reservas` (`reservaID`, `EventoAula`, `espaco`, `dia`, `horario`, `
 CREATE TABLE `reserva_item` (
   `reservaitemID` int(11) NOT NULL,
   `item` int(11) NOT NULL,
-  `AulaEvento` varchar(25) NOT NULL,
+  `AulaEvento` int(3) NOT NULL,
   `nome` char(25) NOT NULL,
   `quantidade` int(3) NOT NULL,
   `responsavel` int(11) NOT NULL,
@@ -166,7 +174,7 @@ CREATE TABLE `reserva_item` (
 
 CREATE TABLE `tipo` (
   `tipoID` int(11) NOT NULL,
-  `tipo` char(25) NOT NULL
+  `tipo` char(30) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 --
@@ -174,9 +182,9 @@ CREATE TABLE `tipo` (
 --
 
 INSERT INTO `tipo` (`tipoID`, `tipo`) VALUES
-(3, 'Laboratório'),
-(4, 'Sala de Aula'),
-(5, 'Sala de Multimídia');
+(8, 'Laboratório de Marketing'),
+(7, 'Sala de Multimídia'),
+(6, 'Sala de Aula');
 
 -- --------------------------------------------------------
 
@@ -268,7 +276,7 @@ ALTER TABLE `usuario`
 -- AUTO_INCREMENT for table `espaco`
 --
 ALTER TABLE `espaco`
-  MODIFY `espacoID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `espacoID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 --
 -- AUTO_INCREMENT for table `historicoitem`
 --
@@ -278,17 +286,17 @@ ALTER TABLE `historicoitem`
 -- AUTO_INCREMENT for table `historicoreserva`
 --
 ALTER TABLE `historicoreserva`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 --
 -- AUTO_INCREMENT for table `item`
 --
 ALTER TABLE `item`
-  MODIFY `itemID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `itemID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 --
 -- AUTO_INCREMENT for table `reservas`
 --
 ALTER TABLE `reservas`
-  MODIFY `reservaID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `reservaID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 --
 -- AUTO_INCREMENT for table `reserva_item`
 --
@@ -298,7 +306,7 @@ ALTER TABLE `reserva_item`
 -- AUTO_INCREMENT for table `tipo`
 --
 ALTER TABLE `tipo`
-  MODIFY `tipoID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `tipoID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 --
 -- AUTO_INCREMENT for table `usuario`
 --
