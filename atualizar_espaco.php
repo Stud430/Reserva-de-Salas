@@ -1,82 +1,69 @@
 
-<?php require_once("conexao.php"); ?>
-
-<?php
-  // pega o ID da URL
-  //$id = isset($_GET['id']) ? (int) $_GET['id'] : null;
-  //$id = $_GET['id'];
-
-  // Consulta a tabela Espaco
-    $sql = "SELECT * ";
-    $sql .= "FROM espaco ";// WHERE id = {$id} ";
-   
-    if ( isset($_GET["id"])) {
-        $id = $_GET["id"];
-        $sql .= "WHERE espacoID = {$id}";
-    } else {
-        $sql .= "WHERE espacoID = 1";
-    }
-
-    $espacos = mysqli_query($conecta,$sql);
-  
-    $linha = mysqli_fetch_assoc($espacos);
+<?php 
+  include("conexao.php"); 
 ?>
 
 <?php
+  if (isset($_POST['editar'])) {
 
-  if(isset($_POST['atualizar']))
-{
-    $id = $_POST["id"];
-    $espaco = $_POST["espaco"];
-    $local = $_POST["local"];
-    $capacidade = $_POST["capacidade"];
-    $tipos = $_POST["tipos"];
-    //$descricao = $_POST['descricao'];
+    $id_espaco = $_POST["espacoID"];
+    $espaco = $_POST["ATespaco"];
+    $local = $_POST["ATlocal"];
+    $capacidade = $_POST["ATcapacidade"];
+    $tipos = $_POST["ATtipos"];
+    $status = $_POST["status"];
+
 
     // Verificando os campos se estao preenchidos
-    if(empty($espaco) || empty($local) || empty($capacidade) /*|| empty($tipos) || empty($descricao) */) {
+  if(empty($espaco) || empty($local) || empty($capacidade) || empty($tipos)){
         if(empty($espaco)) {
-            echo "<font color='red'>Campo Espaço Obrigatorio.</font><br/>";
+            echo "<font color='red'>Campo espaco Obrigatorio.</font><br/>";
         }
         if(empty($local)) {
-            echo "<font color='red'>Campo Local Obrigatorio.</font><br/>";
+            echo "<font color='red'>Campo local Obrigatorio.</font><br/>";
         }
         if(empty($capacidade)) {
-            echo "<font color='red'>Campo Capacidade Obrigatorio.</font><br/>";
+            echo "<font color='red'>Campo capacidade Obrigatorio.</font><br/>";
         }
-        /*if(empty($tipos)) {
-            echo "<font color='red'>Campo Tipo Obrigatorio.</font><br/>";
+        if(empty($tipos)) {
+            echo "<font color='red'>Campo tipos Obrigatorio.</font><br/>";
         }
-        if(empty($descricao)) {
-            echo "<font color='red'>Campo Descriçäo Obrigatorio.</font><br/>";
-        }*/
     } else {
-        //atualizado dados na tabela
-        $sql = "UPDATE espaco SET espaco = '{$espaco}', endereco = '{$local}', capacidade = '{$capacidade}', tipo = '{$tipos}' WHERE espacoID = '{$id}' ";
+        // Atualizando dados na tabela
+        $alterar = "UPDATE espaco SET espaco = '{$espaco}', endereco = '{$local}', capacidade = '{$capacidade}', status = '{$status}', tipo = '{$tipos}' ";
+        $alterar .= "WHERE espacoID = '{$id_espaco}' ";
 
-        $alterar = mysqli_query($conecta,$sql);
+        $alterar = mysqli_query($conecta, $alterar);
 
-        if (!$alterar) {
-          die($alterar);
-        } else {
-          header("location:espacos.php");
-        }
+        if(!$alterar) 
+          {   die("Erro na alteracao");
+              //die(mysqli_error('$conecta'));   
+          } else {
+              echo "<script> alert('Cadastro Realizado com sucesso !!!'); </script>";
+              header("location:espacos.php");   
+          }
     }
 }
 ?>
 
 <?php
-    // Lista tipos
+  // Recebe o id do cliente do cliente via GET
+  $id = isset($_GET['id']) ? (int) $_GET['id'] : null;
+
+  // Consulta a tabela de transportadoras
     $consulta = "SELECT * ";
-    $consulta .= "FROM tipo order by tipo asc";
-    //$consulta .= "WHERE tipoID = '{$id}' ";
-    
-    $lista_tipos = mysqli_query($conecta, $consulta);
-    
-    if(!$lista_tipos) {
-       die("erro no banco"); 
-    }
+    $consulta .= "FROM espaco WHERE espacoID = {$id} ";
+        
+    $espacos = mysqli_query($conecta,$consulta);
+
+    $linha = mysqli_fetch_assoc($espacos);
 ?>
+
+<?php
+  $lista_tipos = $conecta -> query("SELECT * FROM tipo");
+?>
+
+
 
 <!DOCTYPE html>
 <html>
@@ -156,7 +143,7 @@
     <div class="col-2">
       <p>
         <Label>Espaço</Label>
-        <input type="text" value="<?php echo $linha["espaco"] ?>" name="espaco" placeholder="Sala/Laboratório etc" class="form-control">
+        <input type="text" value="<?php echo utf8_encode($linha["espaco"]) ?>" name="ATespaco" id="ATespaco" placeholder="Sala/Laboratório etc" class="form-control">
       </p>
 
     </div>
@@ -164,7 +151,7 @@
     <div class="col-2">
       <p>
         <Label>Local</Label>
-        <input type="text" value="<?php echo $linha["endereco"] ?>" name="local" placeholder="Local / Endereco" class="form-control">
+        <input type="text" value="<?php echo utf8_encode($linha["endereco"]) ?>" name="ATlocal" id="ATlocal" placeholder="Local / Endereco" class="form-control">
       </p>    
     </div>
   </div>
@@ -173,16 +160,16 @@
     <div class="col-2">
       <p>
         <Label>Capacidade</Label>
-        <input type="text" value="<?php echo $linha["capacidade"] ?>" name="capacidade" placeholder="Capacidade em Números" class="form-control">
+        <input type="text" value="<?php echo $linha["capacidade"] ?>" name="ATcapacidade" id="ATcapacidade" placeholder="Capacidade em Números" class="form-control">
       </p>    
     </div>
 
     <div class="col-2">
       <p>
         <Label>Tipo</Label><br>
-        <select id="tipos" name="tipos">
+        <select id="ATtipos" name="ATtipos">
         <!--  <option value="disable" selected=""> Escolha uma opcao</option> -->
-        <?php 
+                        <?php 
                             $meutipo = $linha["tipo"];
                             while($linha = mysqli_fetch_assoc($lista_tipos)) {
                                 $tipo_principal = $linha["tipo"];
@@ -201,30 +188,6 @@
                                 }
                             }
                         ?>
-        <!--  
-          <?php
-            $meuespaco = $linha["id"];
-            while($linha = mysqli_fetch_assoc($lista_tipos)){
-              $tipoprincipal = $linha["id"];
-              if ($meuespaco == $tipoprincipal) {
-          ?>
-                <option value="<?php echo utf8_encode($linha["id"])?>" selected>
-                    <?php echo utf8_encode($linha["tipo"]); ?>
-                </option>
-
-          <?php 
-                } else {
-          ?>      
-
-                <option value="<?php echo $linha["id"] ?>">
-                   <?php echo utf8_encode($linha["tipo"]) ?>
-                </option>
-
-          <?php
-              }
-            }
-          ?>
-        -->    
         </select>
       </p> 
     </div>
@@ -240,10 +203,14 @@
     </textarea>
   </p>
 -->
-  <input type="hidden" name="id" value="<?php echo $linha["espacoID"] ?>">
+  <div class="form-row"> 
+    <input type="hidden" name="espacoID" id="espacoID" value="<?php echo $linha["espacoID"] ?>">
+    <input type="hidden" name="status" id="status" value="<?php echo $linha["status"] ?>">
+  </div>
+
   <div class="form-row">   
     <p>
-      <button type="submit" class="btn btn-success" name="atualizar">Atualizar</button>
+      <button type="submit" class="btn btn-success" name="editar">Atualizar</button>
       <button type="Reset" class="btn btn-warning" name="limpar">Limpar</button>
     </p>
   </div> 
